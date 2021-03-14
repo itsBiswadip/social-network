@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const path = require('path');
 const db = require('./src/common/db');
 const indexRouter = require('./src/routes');
+const { passport } = require('./src/common/auth');
 
 const app = express();
 
@@ -16,6 +17,9 @@ app.use(cors());
 //handle post or url encoded data
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
+
+//authentication middleware
+app.use(passport.initialize());
 
 //request logger
 app.use(morgan('dev'));
