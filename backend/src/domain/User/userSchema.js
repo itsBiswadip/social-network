@@ -15,10 +15,19 @@ const UserSchema = db.define('User',{
     email: {
         type: DataTypes.STRING(320),
         allowNull: false,
+        unique: true
     },
     password : {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    createdAt : {
+        type: DataTypes.DATE,
+        defaultValue: db.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt : {
+        type: DataTypes.DATE,
+        defaultValue: db.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
     },
 },{
     timestamps: true,  // add the timestamp attributes (createdAt, updatedAt)
