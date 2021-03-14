@@ -3,10 +3,10 @@ const path = require('path');
 const config = require("../../config/config.json")['database'];
 
 const db = new Sequelize({
-    username: config.username,
-    database: config.database,
-    password: config.password,
-    host: config.host,
+    host: process.env.DB_HOST,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
     dialect: config.dialect,
     pool: config.pool
 });
