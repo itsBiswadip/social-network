@@ -16,4 +16,16 @@ userRouter.put('/',
     userController.signup
 );
 
+
+const validLoginBody = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(3).required(),
+});
+userRouter.post('/',
+    celebrate({
+        [Segments.BODY]: validLoginBody
+    }),
+    userController.login
+);
+
 module.exports = userRouter;
