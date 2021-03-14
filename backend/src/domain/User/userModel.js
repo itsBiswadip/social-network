@@ -11,7 +11,7 @@ userModel.createUser = async(email, password, userName = '') => {
     let [newUser] = await db.query(query, {
         raw: true,
         type: QueryTypes.INSERT,
-        replacements: [email, password, userName = '']
+        replacements: [email, password, userName]
     })
 
     return newUser;
