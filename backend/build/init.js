@@ -4,3 +4,6 @@ require('dotenv').config({ path: envPath })
 
 //Sync Database
 require('./dbSync');
+
+//generate keys for sigining & verifying jwt
+require('./generateKeyPair');
