@@ -1,9 +1,11 @@
 // Instantiate app
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const { errors } = require('celebrate');
 const path = require('path');
+const db = require('./src/common/db');
 
 const app = express();
 
