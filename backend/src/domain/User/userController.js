@@ -19,7 +19,14 @@ userController.signup = async(req, res, next) => {
 				req.body.userName);
 
 		let newUser = await userModel.findUserByUserId(newUserId, attributes);
-		res.status(201).json(newUser);
+
+		const auth = getAuthInfo(newUser.userID)
+		let response = {
+			message: 'Success',
+			user: newUser,
+			token: auth.token
+		}
+		res.status(201).json(response);
 	} catch (error) {
 		next(error);
 	}
@@ -27,7 +34,7 @@ userController.signup = async(req, res, next) => {
 
 userController.login = async(req, res, next) => {
 	try {
-		let attributes = ['userID', 'password'];
+		let attributes = ['userID', 'userName', 'email', 'password'];
 		let existingUser = await userModel.findUserByEmail(req.body.email, attributes);
 		if(!existingUser)
 			return res.status(401).json({message: 'User not found'})
@@ -36,8 +43,14 @@ userController.login = async(req, res, next) => {
 		if(!isMatchingPassword)
 			return res.status(401).json({message: 'Wrong Password'});
 		
-		const auth = getAuthInfo(existingUser.userID)
-		res.json({message: 'Success', token: auth.token});
+		const auth = getAuthInfo(existingUser.userID);
+		delete existingUser.password;
+		let response = {
+			message: 'Success',
+			user: existingUser,
+			token: auth.token
+		}
+		res.json(response);
 		
 		
 	} catch (error) {
