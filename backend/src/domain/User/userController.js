@@ -5,28 +5,38 @@ const userController = {};
 
 userController.signup = async(req, res, next) => {
 	try {
-		let attributes = ['userID', 'userName', 'email'];
+		let attributes = ['userID', 'userName', 'email', 'password'];
 		let existingUser = await userModel.findUserByEmail(req.body.email, attributes);
-		if(existingUser)
-			return res.json(existingUser);
+		let user, statusCode;
+		if(existingUser) {
+			let isMatchingPassword = await bcrypt.compare(req.body.password, existingUser.password);
+			if(!isMatchingPassword)
+				return res.status(401).json({message: 'User Exists. Wrong Password'});
+			user = existingUser;
+			statusCode = 200;
+		}
+		else {
+			//encrypt password
+			let hashedPassword = await bcrypt.hash(req.body.password,10);
 
-		//encrypt password
-		let hashedPassword = await bcrypt.hash(req.body.password,10);
+			let newUserId = await userModel.createUser(
+					req.body.email, 
+					hashedPassword,
+					req.body.userName);
 
-		let newUserId = await userModel.createUser(
-				req.body.email, 
-				hashedPassword,
-				req.body.userName);
+			let newUser = await userModel.findUserByUserId(newUserId, attributes);
+			user = newUser;
+			statusCode = 201;
+		}		
 
-		let newUser = await userModel.findUserByUserId(newUserId, attributes);
-
-		const auth = getAuthInfo(newUser.userID)
+		const auth = getAuthInfo(user.userID)
+		delete user.password;
 		let response = {
 			message: 'Success',
-			user: newUser,
+			user: user,
 			token: auth.token
 		}
-		res.status(201).json(response);
+		res.status(statusCode).json(response);
 	} catch (error) {
 		next(error);
 	}
