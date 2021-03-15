@@ -1,5 +1,6 @@
 const userController = require('./userController');
 const { celebrate, Joi, Segments } = require('celebrate');
+const passport = require('passport');
 
 const userRouter = require('express').Router();
 
@@ -27,5 +28,11 @@ userRouter.post('/',
     }),
     userController.login
 );
+
+
+userRouter.get('/',
+    passport.authenticate('jwt', { session: false}),
+    userController.getUser
+)
 
 module.exports = userRouter;

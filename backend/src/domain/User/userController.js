@@ -68,4 +68,18 @@ userController.login = async(req, res, next) => {
 	}
 }
 
+userController.getUser = async(req, res, next)=> {
+	try {
+		let user = {
+			userID: req.user.userID,
+			userName: req.user.userName,
+			email: req.user.email
+		}
+		res.json({user});
+	} catch (error) {
+		next(error);
+	}
+
+}
+
 module.exports = userController;
