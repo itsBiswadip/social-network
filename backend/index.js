@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const { errors } = require('celebrate');
+const { errors, isCelebrateError } = require('celebrate');
 const path = require('path');
 const db = require('./src/common/db');
 const indexRouter = require('./src/routes');
@@ -36,9 +36,21 @@ app.get('*', (req, res) => {
 /**
  * Error Handlers
  */
- app.use(errors()); // api validation errors
-
  app.use((error,req,res,next) => {
+     // custom api validation errors for celebrate middleware
+     if(isCelebrateError(error)) {
+         let message = 'Invalid data';
+         for (const [, joiError] of error.details.entries()) {
+            if(joiError.message) {
+                message = joiError.message;
+                break;
+            }
+        }
+        
+        return res.status(400).json({
+            message
+        });
+     }
      res.status(error.status || 500).json({
          "error": {
              message: error.message || 'Something is wrong'
