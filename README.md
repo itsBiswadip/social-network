@@ -14,11 +14,11 @@ The project has the following dependencies:
 
 * Node.js: v12 (Minimum: v10)
 * React.js: v17 (Minimum: v16.8)
-* Mysql: v5.7
+* MySQL: v5.7
 
 ### Setup
 
-1. Add a `.env` in `src/backend` file with the following configuration:
+1. Create a new databate in MySQL and add a `.env` in `src/backend` file with the following configuration:
 
 ```
 DB_HOST=hostname
