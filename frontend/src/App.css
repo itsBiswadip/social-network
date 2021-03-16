@@ -41,3 +41,11 @@
 .text-align-right {
   text-align: right;
 }
+
+.noMargin .ant-card-meta-title {
+  margin-bottom: 0px !important;
+}
+
+.oneRem {
+  font-size: 1rem;
+}
