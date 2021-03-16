@@ -12,7 +12,6 @@ const Post = ({postItem, onLike}) => {
     return (
         <Card
             hoverable
-            className="w100"
         >
             <Title level={5}>{postItem.title}</Title>
             <Paragraph ellipsis={ellipsis ? { rows: 3, expandable: true, symbol: 'Continue Reading' } : false}>

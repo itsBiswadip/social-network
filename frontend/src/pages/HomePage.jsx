@@ -91,7 +91,7 @@ const HomePage = () => {
             </Row>
             <Row gutter={32} style={{paddingTop: '16px'}} justify="center" className="w100">
             <Col md={10}>
-                <Space direction="vertical">
+                <Space direction="vertical"  className="w100">
                 {postsUI}
                 </Space>
             </Col>
