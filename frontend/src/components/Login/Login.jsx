@@ -11,7 +11,7 @@ const Login = () => {
 
 	const onFinish = (values) => {
 		console.log('Received values of form: ', values);
-		fetch(`/api/users`,{
+		fetch(`${process.env.REACT_APP_BASE_API_URL}/api/users`,{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(values)

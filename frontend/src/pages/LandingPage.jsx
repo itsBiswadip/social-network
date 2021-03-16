@@ -13,7 +13,7 @@ const LandingPage = () => {
         const authToken = localStorage.getItem('authToken');
         if(!isLoggedIn) {
             if(authToken) {
-                fetch(`/api/users`,{
+                fetch(`${process.env.REACT_APP_BASE_API_URL}/api/users`,{
                     headers: { 
                         'Content-Type': 'application/json',
                         'Authorization' : authToken
